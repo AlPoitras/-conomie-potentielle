@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur d'économies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .calculator {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .calculator input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .calculator button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e0f7fa;
+            border-radius: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <h2>Calculateur d'économies hypothécaires</h2>
+    <label for="loanAmount">Montant de l'hypothèque restante (en $):</label>
+    <input type="number" id="loanAmount" placeholder="Ex: 200000">
+
+    <label for="currentRate">Taux d'intérêt actuel (%):</label>
+    <input type="number" id="currentRate" step="0.01" placeholder="Ex: 3.5">
+
+    <label for="newRate">Nouveau taux hypothécaire proposé (%):</label>
+    <input type="number" id="newRate" step="0.01" placeholder="Ex: 2.5">
+
+    <label for="remainingTerm">Durée restante du prêt (en années):</label>
+    <input type="number" id="remainingTerm" placeholder="Ex: 20">
+
+    <button onclick="calculateSavings()">Calculer les économies</button>
+
+    <div class="result" id="result">
+        <h3>Résultats</h3>
+        <p>Vos économies mensuelles potentielles : <span id="monthlySavings"></span> $</p>
+        <p>Vos économies totales sur la durée du prêt : <span id="totalSavings"></span> $</p>
+    </div>
+</div>
+
+<script>
+    function calculateSavings() {
+        var loanAmount = parseFloat(document.getElementById("loanAmount").value);
+        var currentRate = parseFloat(document.getElementById("currentRate").value) / 100;
+        var newRate = parseFloat(document.getElementById("newRate").value) / 100;
+        var remainingTerm = parseFloat(document.getElementById("remainingTerm").value);
+
+        if (isNaN(loanAmount) || isNaN(currentRate) || isNaN(newRate) || isNaN(remainingTerm)) {
+            alert("Veuillez entrer toutes les valeurs correctement.");
+            return;
+        }
+
+        var currentMonthlyPayment = (loanAmount * currentRate) / 12;
+        var newMonthlyPayment = (loanAmount * newRate) / 12;
+
+        var monthlySavings = currentMonthlyPayment - newMonthlyPayment;
+        var totalSavings = monthlySavings * 12 * remainingTerm;
+
+        document.getElementById("monthlySavings").textContent = monthlySavings.toFixed(2);
+        document.getElementById("totalSavings").textContent = totalSavings.toFixed(2);
+
+        document.getElementById("result").style.display = "block";
+    }
+</script>
+
+</body>
+</html>
